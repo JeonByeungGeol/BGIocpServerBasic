@@ -11,5 +11,28 @@
 #include <tchar.h>
 
 
-
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
+
+#include <windows.h>
+
+// std
+#include <iostream>
+#include <string>
+#include <fstream>
+
+#include <map>
+#include <queue>
+#include <vector>
+
+#include <thread>
+#include <mutex>
+
+
+
+// 공통
+#include "BGConst.h"
+
+// 유틸
+#include "BGSingleton.h"
+#include "BGConfigManager.h"
+#include "BGLogManager.h"
