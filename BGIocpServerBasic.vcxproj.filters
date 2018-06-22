@@ -28,15 +28,15 @@
     <Filter Include="세션">
       <UniqueIdentifier>{3dd97a46-c057-45fc-964d-dbdfc3b87fae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="서버">
+      <UniqueIdentifier>{1dadf8e1-c50c-4801-a397-4bf8042d3ae2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="BGServer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="BGLog.h">
@@ -66,15 +66,15 @@
     <ClInclude Include="BGSessionManager.h">
       <Filter>세션</Filter>
     </ClInclude>
+    <ClInclude Include="BGServer.h">
+      <Filter>서버</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="BGIocpServerBasic.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="BGServer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="BGLog.cpp">
@@ -94,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="BGSessionManager.cpp">
       <Filter>세션</Filter>
+    </ClCompile>
+    <ClCompile Include="BGServer.cpp">
+      <Filter>서버</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

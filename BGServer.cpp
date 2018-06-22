@@ -31,7 +31,7 @@ bool BGServer::Start()
 
 bool BGServer::Stop()
 {
-	if (IsRunning()) {
+	if (false == IsRunning()) {
 		BG_LOG_ERROR("Already server stop");
 		return false;
 	}

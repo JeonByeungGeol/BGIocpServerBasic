@@ -15,7 +15,7 @@ public:
 	bool Initialize();
 
 	/** 서버가 동작중인지 확인합니다.*/
-	bool IsRun();
+	bool IsRunning();
 
 	
 
