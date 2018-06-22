@@ -2,6 +2,7 @@
 
 #include "BGConfigManager.h"
 #include "BGLogManager.h"
+#include "BGServer.h"
 
 /**
  * std::once_flag는 초기화 하지 않으며 std::call_once와 연동되어 멀티스레드 환경에서
@@ -26,7 +27,7 @@
 /** define으로 정의*/
 #define g_Config BGSingleton::Instance()->GetConfigManager()
 #define g_LogManager BGSingleton::Instance()->GetLogManager()
-
+#define g_Server BGSingleton::Instance()->GetServer()
 
 class BGSingleton
 {
@@ -53,11 +54,14 @@ public:
 
 	/** 싱글톤으로 생성할 객체*/
 private:
+	
 	BGConfigManager m_ConfigManager;
 	BGLogManager m_LogManager;
+	BGServer m_Server;
 
 public:
 	BGConfigManager& GetConfigManager() { return m_ConfigManager; }
 	BGLogManager& GetLogManager() { return m_LogManager; }
+	BGServer& GetServer() { return m_Server; }
 };
 
