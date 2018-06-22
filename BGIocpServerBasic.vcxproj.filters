@@ -31,6 +31,9 @@
     <Filter Include="서버">
       <UniqueIdentifier>{1dadf8e1-c50c-4801-a397-4bf8042d3ae2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="IOCP">
+      <UniqueIdentifier>{b0f7ff12-6bfd-452e-a1bc-b48be52328ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -51,23 +54,29 @@
     <ClInclude Include="bgconfigmanager.h">
       <Filter>설정</Filter>
     </ClInclude>
-    <ClInclude Include="BGConst.h">
-      <Filter>공통</Filter>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BGServer.h">
+      <Filter>서버</Filter>
+    </ClInclude>
+    <ClInclude Include="BGIocpHandler.h">
+      <Filter>IOCP</Filter>
     </ClInclude>
     <ClInclude Include="BGSingleton.h">
       <Filter>싱글톤</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="BGConst.h">
+      <Filter>공통</Filter>
     </ClInclude>
     <ClInclude Include="BGSession.h">
       <Filter>세션</Filter>
     </ClInclude>
-    <ClInclude Include="BGSessionManager.h">
+    <ClInclude Include="BGSessionEnum.h">
       <Filter>세션</Filter>
     </ClInclude>
-    <ClInclude Include="BGServer.h">
-      <Filter>서버</Filter>
+    <ClInclude Include="BGSessionManager.h">
+      <Filter>세션</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +95,12 @@
     <ClCompile Include="BGConfigManager.cpp">
       <Filter>설정</Filter>
     </ClCompile>
+    <ClCompile Include="BGServer.cpp">
+      <Filter>서버</Filter>
+    </ClCompile>
+    <ClCompile Include="BGIocpHandler.cpp">
+      <Filter>IOCP</Filter>
+    </ClCompile>
     <ClCompile Include="BGSingleton.cpp">
       <Filter>싱글톤</Filter>
     </ClCompile>
@@ -94,9 +109,6 @@
     </ClCompile>
     <ClCompile Include="BGSessionManager.cpp">
       <Filter>세션</Filter>
-    </ClCompile>
-    <ClCompile Include="BGServer.cpp">
-      <Filter>서버</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

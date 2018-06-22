@@ -147,11 +147,13 @@
   <ItemGroup>
     <ClInclude Include="bgconfigmanager.h" />
     <ClInclude Include="BGConst.h" />
+    <ClInclude Include="BGIocpHandler.h" />
     <ClInclude Include="BGLog.h" />
     <ClInclude Include="BGLogEnum.h" />
     <ClInclude Include="BGLogManager.h" />
     <ClInclude Include="BGServer.h" />
     <ClInclude Include="BGSession.h" />
+    <ClInclude Include="BGSessionEnum.h" />
     <ClInclude Include="BGSessionManager.h" />
     <ClInclude Include="BGSingleton.h" />
     <ClInclude Include="stdafx.h" />
@@ -159,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BGConfigManager.cpp" />
+    <ClCompile Include="BGIocpHandler.cpp" />
     <ClCompile Include="BGIocpServerBasic.cpp" />
     <ClCompile Include="BGLog.cpp" />
     <ClCompile Include="BGLogManager.cpp" />

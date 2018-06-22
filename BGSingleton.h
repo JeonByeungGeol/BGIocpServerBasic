@@ -2,6 +2,8 @@
 
 #include "BGConfigManager.h"
 #include "BGLogManager.h"
+#include "BGSessionManager.h"
+
 #include "BGServer.h"
 
 /**
@@ -27,6 +29,9 @@
 /** define으로 정의*/
 #define g_Config BGSingleton::Instance()->GetConfigManager()
 #define g_LogManager BGSingleton::Instance()->GetLogManager()
+#define g_SessionManager BGSingleton::Instance()->GetSessionManager()
+
+/** 사용자 정의*/
 #define g_Server BGSingleton::Instance()->GetServer()
 
 class BGSingleton
@@ -54,14 +59,17 @@ public:
 
 	/** 싱글톤으로 생성할 객체*/
 private:
-	
 	BGConfigManager m_ConfigManager;
 	BGLogManager m_LogManager;
+	BGSessionManager m_SessionManager;
+
 	BGServer m_Server;
 
 public:
 	BGConfigManager& GetConfigManager() { return m_ConfigManager; }
 	BGLogManager& GetLogManager() { return m_LogManager; }
+	BGSessionManager& GetSessionManager() { return m_SessionManager; }
+
 	BGServer& GetServer() { return m_Server; }
 };
 

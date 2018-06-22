@@ -13,6 +13,7 @@
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
 
+// window
 #include <windows.h>
 
 // std
@@ -23,6 +24,7 @@
 #include <map>
 #include <queue>
 #include <vector>
+#include <array>
 
 #include <thread>
 #include <mutex>
