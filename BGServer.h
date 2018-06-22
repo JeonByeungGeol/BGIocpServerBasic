@@ -20,7 +20,14 @@ public:
 	
 
 private:
+	/** 현재 서버가 동작중인지 판단하기 위한 변수와 뮤텍스*/
 	std::shared_mutex shared_mutex;
 	bool m_bServerRunning;
+
+	/** 접속을 처리할 전용 스레드 */
+	std::thread acceptThread;
+
+	/** IOCP Worker Thread */
+	std::vector<std::thread*> workerThreads;
 };
 
