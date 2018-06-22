@@ -47,6 +47,13 @@ bool BGServer::Stop()
 
 bool BGServer::Initialize()
 {
+	// Locale(로케일은) 프로그램을 언어와 국가에 최적화하기 위해 사용하는 "지역/언어"정보
+	_wsetlocale(LC_ALL, _T("korea"));
+	
+	WSADATA wsadata;
+	WSAStartup(MAKEWORD(2, 2), &wsadata);
+
+	
 	return true;
 }
 
