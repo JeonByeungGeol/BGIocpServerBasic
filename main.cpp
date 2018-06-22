@@ -10,7 +10,7 @@ int main()
 		std::cout << "g_Config.Load() Failed!" << std::endl;
 		return -1;
 	}
-
+	
 	if (!g_LogManager.Start()) {
 		std::cout << "g_LogManager.Start() Failed!" << std::endl;
 		return -1;
@@ -32,5 +32,5 @@ int main()
 		return -1;
 	}
 
-	return 0;
+    return 0;
 }

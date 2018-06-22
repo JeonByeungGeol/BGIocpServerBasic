@@ -65,5 +65,3 @@ double BGConfigManager::GetDouble(Key k)
 		
 	return std::stod(v);
 }
-
-

@@ -25,23 +25,7 @@ public:
 	int GetInt(Key);
 	double GetDouble(Key);
 
-	template <class T>
-	T Get(Key);
-
 private:
 	// config 값들을 저장합니다.
 	ConfigMap m_ConfigMap;
 };
-
-template <class T>
-T BGConfigManager::Get(Key key)
-{
-	T t;
-	Value v = GetString(key);
-	if (v.empty())
-		return t;
-
-	std::istringstream ist(v);
-	ist >> t;
-	return t;
-}
