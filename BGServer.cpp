@@ -19,6 +19,13 @@ bool BGServer::Start()
 		return false;
 	}
 
+	if (!g_SessionManager.Start()) {
+		BG_LOG_ERROR("g_SessionManager.Start failed");
+		return -1;
+	}
+
+
+
 
 	shared_mutex.lock();
 	m_bServerRunning = true;
@@ -39,6 +46,16 @@ bool BGServer::Stop()
 	shared_mutex.lock();
 	m_bServerRunning = false;
 	shared_mutex.unlock();
+	
+
+
+
+
+
+	if (!g_SessionManager.Stop()) {
+		BG_LOG_ERROR("g_SessionManager.Stop failed");
+		return -1;
+	}
 
 	BG_LOG_DEBUG("SERVER OFF");
 

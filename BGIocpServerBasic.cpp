@@ -15,12 +15,7 @@ int main()
 		std::cout << "g_LogManager.Start Failed!" << std::endl;
 		return -1;
 	}
-
-	if (!g_SessionManager.Start()) {
-		BG_LOG_ERROR("g_SessionManager.Start failed");
-		return -1;
-	}
-
+	
 	if (!g_Server.Start()) {
 		BG_LOG_ERROR("g_Server.Start Failed!");
 		return -1;
@@ -42,12 +37,7 @@ int main()
 		BG_LOG_ERROR("g_Server.Stop Failed!");
 		return -1;
 	}
-
-	if (!g_SessionManager.Stop()) {
-		BG_LOG_ERROR("g_SessionManager.Stop failed");
-		return -1;
-	}
-
+	
 	if (!g_LogManager.Stop()) {
 		std::cout << "g_LogManager.Stop Failed!" << std::endl;
 		return -1;
