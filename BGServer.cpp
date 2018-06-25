@@ -17,7 +17,7 @@ bool BGServer::Start()
 	BG_LOG_DEBUG("SERVER ON");
 
 	if (false == Initialize()) {
-		BG_LOG_ERROR("Initialize is Fail!");
+		BG_LOG_ERROR("Initialize is failed");
 		return false;
 	}
 
@@ -29,6 +29,11 @@ bool BGServer::Start()
 	shared_mutex.lock();
 	m_bServerRunning = true;
 	shared_mutex.unlock();
+
+	if (false == ListenStart()) {
+		BG_LOG_ERROR("ListenStart() is failed");
+		return false;
+	}
 
 	// WorkerThread 悼累
 	for (int i = 0; i < BG_WORKER_THREAD_NUM; i++)
@@ -59,6 +64,11 @@ bool BGServer::Stop()
 	shared_mutex.unlock();
 		
 	// AcceptThread 辆丰
+	if (INVALID_SOCKET == closesocket(m_ListenSocket)) 
+	{
+		BG_LOG_ERROR("Close ListenSocket is failed");
+		return false;
+	}
 	if (acceptThread == nullptr) {		
 		BG_LOG_ERROR("AcceptThread is nullptr");
 	}
@@ -107,6 +117,31 @@ bool BGServer::IsRunning()
 	return isRun;
 }
 
+bool BGServer::ListenStart()
+{
+	m_ListenSocket = WSASocket(AF_INET, SOCK_STREAM,
+		IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED);
+
+	struct sockaddr_in listen_addr;	
+	ZeroMemory(&listen_addr, sizeof(listen_addr));
+	listen_addr.sin_family = AF_INET;
+	listen_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+	listen_addr.sin_port = htons(g_Config.GetInt("MY_SERVER_PORT"));
+	ZeroMemory(&listen_addr.sin_zero, 8);
+
+	if (SOCKET_ERROR == ::bind(m_ListenSocket, reinterpret_cast<sockaddr*>(&listen_addr), sizeof(listen_addr))) {
+		BG_LOG_ERROR("::bind() is failed");
+		return false;
+	}
+	
+	if (SOCKET_ERROR == listen(m_ListenSocket, 10)) {
+		BG_LOG_ERROR("listen() is failed");
+		return false;
+	}
+
+	return true;
+}
+
 std::thread* BGServer::AcceptSpawn()
 {
 	return new std::thread{ [this] { this->Accept(); } };
@@ -120,9 +155,26 @@ std::thread * BGServer::RunSpawn()
 void BGServer::Accept()
 {
 	BG_LOG_DEBUG("Accept Thread Start");
+
+	struct sockaddr_in client_addr;
+	int addr_size = sizeof(client_addr);
+
 	while (true) {
 		if (false == IsRunning())
 			break;
+
+		SOCKET newClient = WSAAccept(m_ListenSocket, reinterpret_cast<sockaddr*>(&client_addr), &addr_size, NULL, NULL);
+		
+		if (newClient == INVALID_SOCKET && WSAGetLastError() == WSAEWOULDBLOCK) {
+			BG_LOG_TRACE("newClient is INVALID_SOCKET or WSAEWOULDBLOCK");
+			continue;
+		}
+		
+		if (false == IsRunning())
+			break;
+
+			
+		// 立加 贸府
 		
 
 
@@ -147,5 +199,7 @@ void BGServer::Run()
 	}
 	BG_LOG_DEBUG("Worker Thread Exit");
 }
+
+
 
 

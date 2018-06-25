@@ -19,11 +19,14 @@ public:
 	/** 서버가 동작중인지 확인합니다.*/
 	bool IsRunning();
 		
-	/** 접속을 Accpet 처리하는 함수*/
+	/** 클라이언트로부터 접속을 처리하는 작업을 시작합니다.*/
+	bool ListenStart();
+
+	/** 접속을 Accpet 요청을 처리하는 함수입니다.*/
 	void Accept();
 
-	/** */
-	void Run();
+	/** 패킷을 조립해서 처리하는 함수입니다.*/
+	void Run();	
 
 private:
 	/** Accept함수를 스레드에서 동작하기 위한 함수*/
@@ -43,6 +46,7 @@ private:
 	/** IOCP Worker Thread */
 	std::vector<std::thread*> workerThreads;
 
-	
+	/** 클라이언트 접속을 받을 소켓*/
+	SOCKET m_ListenSocket;
 };
 
