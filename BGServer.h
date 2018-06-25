@@ -18,13 +18,13 @@ public:
 
 	/** 서버가 동작중인지 확인합니다.*/
 	bool IsRunning();
-
-	/** Accept함수를 스레드에서 동작하기 위한 함수*/
-	std::thread* AcceptSpawn();
-
+		
 	/** 접속을 Accpet 처리하는 함수*/
 	void Accept();
-	
+
+private:
+	/** Accept함수를 스레드에서 동작하기 위한 함수*/
+	std::thread* AcceptSpawn();
 
 private:
 	/** 현재 서버가 동작중인지 판단하기 위한 변수와 뮤텍스*/
@@ -36,5 +36,7 @@ private:
 
 	/** IOCP Worker Thread */
 	std::vector<std::thread*> workerThreads;
+
+	
 };
 
