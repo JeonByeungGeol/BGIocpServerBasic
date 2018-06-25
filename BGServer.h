@@ -22,9 +22,15 @@ public:
 	/** 접속을 Accpet 처리하는 함수*/
 	void Accept();
 
+	/** */
+	void Run();
+
 private:
 	/** Accept함수를 스레드에서 동작하기 위한 함수*/
 	std::thread* AcceptSpawn();
+
+	/** Run함수를 스레드에서 동작하기 위한 함수*/
+	std::thread* RunSpawn();
 
 private:
 	/** 현재 서버가 동작중인지 판단하기 위한 변수와 뮤텍스*/

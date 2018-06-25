@@ -14,6 +14,8 @@ BGServer::~BGServer()
 
 bool BGServer::Start()
 {
+	BG_LOG_DEBUG("SERVER ON");
+
 	if (false == Initialize()) {
 		BG_LOG_ERROR("Initialize is Fail!");
 		return false;
@@ -28,7 +30,11 @@ bool BGServer::Start()
 	m_bServerRunning = true;
 	shared_mutex.unlock();
 
+	// WorkerThread 동작
+	for (int i = 0; i < BG_WORKER_THREAD_NUM; i++)
+		workerThreads.push_back(RunSpawn());
 
+	// AcceptThread 동작
 	acceptThread = AcceptSpawn();
 
 
@@ -36,7 +42,7 @@ bool BGServer::Start()
 
 	
 
-	BG_LOG_DEBUG("SERVER ON");
+	BG_LOG_DEBUG("SERVER RUNNING");
 
 	return true;
 }
@@ -52,6 +58,7 @@ bool BGServer::Stop()
 	m_bServerRunning = false;
 	shared_mutex.unlock();
 		
+	// AcceptThread 종료
 	if (acceptThread == nullptr) {		
 		BG_LOG_ERROR("AcceptThread is nullptr");
 	}
@@ -59,6 +66,14 @@ bool BGServer::Stop()
 	delete acceptThread;
 	acceptThread = nullptr;
 
+	// WorkerThread 종료
+	for (auto& thread : workerThreads) {
+		if (thread == nullptr)
+			BG_LOG_ERROR("WorkerThread is nullptr");
+		thread->join();
+		delete thread;
+		thread = nullptr;
+	}
 
 
 	if (!g_SessionManager.Stop()) {
@@ -97,6 +112,11 @@ std::thread* BGServer::AcceptSpawn()
 	return new std::thread{ [this] { this->Accept(); } };
 }
 
+std::thread * BGServer::RunSpawn()
+{
+	return new std::thread{ [this] {this->Run(); } };
+}
+
 void BGServer::Accept()
 {
 	BG_LOG_DEBUG("Accept Thread Start");
@@ -111,6 +131,21 @@ void BGServer::Accept()
 
 	}
 	BG_LOG_DEBUG("Accept Thread Exit");
+}
+
+void BGServer::Run()
+{
+	BG_LOG_DEBUG("Worker Thread Start");
+	while (true) {
+		if (false == IsRunning())
+			break;
+
+
+
+
+
+	}
+	BG_LOG_DEBUG("Worker Thread Exit");
 }
 
 
