@@ -21,15 +21,20 @@ bool BGServer::Start()
 
 	if (!g_SessionManager.Start()) {
 		BG_LOG_ERROR("g_SessionManager.Start failed");
-		return -1;
+		return false;
 	}
-
-
-
 
 	shared_mutex.lock();
 	m_bServerRunning = true;
 	shared_mutex.unlock();
+
+
+	acceptThread = AcceptSpawn();
+
+
+
+
+	
 
 	BG_LOG_DEBUG("SERVER ON");
 
@@ -46,15 +51,19 @@ bool BGServer::Stop()
 	shared_mutex.lock();
 	m_bServerRunning = false;
 	shared_mutex.unlock();
-	
-
-
+		
+	if (acceptThread != nullptr) {		
+		BG_LOG_ERROR("AcceptThread is nullptr");
+	}
+	acceptThread->join();
+	delete acceptThread;
+	acceptThread = nullptr;
 
 
 
 	if (!g_SessionManager.Stop()) {
 		BG_LOG_ERROR("g_SessionManager.Stop failed");
-		return -1;
+		return false;
 	}
 
 	BG_LOG_DEBUG("SERVER OFF");
@@ -81,6 +90,27 @@ bool BGServer::IsRunning()
 	shared_mutex.unlock_shared();
 
 	return isRun;
+}
+
+std::thread* BGServer::AcceptSpawn()
+{
+	return new std::thread{ [this] { this->Accept(); } };
+}
+
+void BGServer::Accept()
+{
+	BG_LOG_DEBUG("Accept Thread Start");
+	while (true) {
+		if (false == IsRunning())
+			break;
+		
+
+
+
+
+
+	}
+	BG_LOG_DEBUG("Accept Thread Exit");
 }
 
 
