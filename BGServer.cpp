@@ -175,14 +175,24 @@ void BGServer::Accept()
 
 			
 		// 立加 贸府
-		
-
-
-
-
-
+		if (false == AcceptProcess(newClient)) {
+			BG_LOG_ERROR("AcceptProcess() is failed");
+			continue;
+		}
 	}
 	BG_LOG_DEBUG("Accept Thread Exit");
+}
+
+bool BGServer::AcceptProcess(SOCKET& socket)
+{
+	BGSession* pNewSession = g_SessionManager.GetSessionNew();
+	if (nullptr == pNewSession) {
+		BG_LOG_ERROR("pNewSession is nullptr");
+		return false;
+	}
+
+
+	return true;
 }
 
 void BGServer::Run()
