@@ -52,7 +52,7 @@ bool BGServer::Stop()
 	m_bServerRunning = false;
 	shared_mutex.unlock();
 		
-	if (acceptThread != nullptr) {		
+	if (acceptThread == nullptr) {		
 		BG_LOG_ERROR("AcceptThread is nullptr");
 	}
 	acceptThread->join();
