@@ -147,7 +147,7 @@
   <ItemGroup>
     <ClInclude Include="bgconfigmanager.h" />
     <ClInclude Include="BGConst.h" />
-    <ClInclude Include="BGIocpHandler.h" />
+    <ClInclude Include="BGCompletionPortHandler.h" />
     <ClInclude Include="BGLog.h" />
     <ClInclude Include="BGLogEnum.h" />
     <ClInclude Include="BGLogManager.h" />
@@ -161,7 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BGConfigManager.cpp" />
-    <ClCompile Include="BGIocpHandler.cpp" />
+    <ClCompile Include="BGCompletionPortHandler.cpp" />
     <ClCompile Include="BGIocpServerBasic.cpp" />
     <ClCompile Include="BGLog.cpp" />
     <ClCompile Include="BGLogManager.cpp" />

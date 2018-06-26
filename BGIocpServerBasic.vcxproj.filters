@@ -60,9 +60,6 @@
     <ClInclude Include="BGServer.h">
       <Filter>서버</Filter>
     </ClInclude>
-    <ClInclude Include="BGIocpHandler.h">
-      <Filter>IOCP</Filter>
-    </ClInclude>
     <ClInclude Include="BGSingleton.h">
       <Filter>싱글톤</Filter>
     </ClInclude>
@@ -77,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="BGSessionManager.h">
       <Filter>세션</Filter>
+    </ClInclude>
+    <ClInclude Include="BGCompletionPortHandler.h">
+      <Filter>IOCP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -98,9 +98,6 @@
     <ClCompile Include="BGServer.cpp">
       <Filter>서버</Filter>
     </ClCompile>
-    <ClCompile Include="BGIocpHandler.cpp">
-      <Filter>IOCP</Filter>
-    </ClCompile>
     <ClCompile Include="BGSingleton.cpp">
       <Filter>싱글톤</Filter>
     </ClCompile>
@@ -109,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="BGSessionManager.cpp">
       <Filter>세션</Filter>
+    </ClCompile>
+    <ClCompile Include="BGCompletionPortHandler.cpp">
+      <Filter>IOCP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -21,15 +21,20 @@ bool BGServer::Start()
 		return false;
 	}
 
-	if (!g_SessionManager.Start()) {
-		BG_LOG_ERROR("g_SessionManager.Start failed");
+	if (false == g_SessionManager.Start()) {
+		BG_LOG_ERROR("g_SessionManager.Start is failed");
+		return false;
+	}
+
+	if (false == m_IOCPHandler.Start()) {
+		BG_LOG_ERROR("CompletionPortHandler.Start is failed");
 		return false;
 	}
 
 	shared_mutex.lock();
 	m_bServerRunning = true;
 	shared_mutex.unlock();
-
+	
 	if (false == ListenStart()) {
 		BG_LOG_ERROR("ListenStart() is failed");
 		return false;
@@ -63,6 +68,11 @@ bool BGServer::Stop()
 	m_bServerRunning = false;
 	shared_mutex.unlock();
 		
+	if (false == m_IOCPHandler.Stop()) {
+		BG_LOG_ERROR("CompletionPortHandler.Stop is failed");
+		return false;
+	}
+
 	// AcceptThread 辆丰
 	if (INVALID_SOCKET == closesocket(m_ListenSocket)) 
 	{
@@ -172,7 +182,6 @@ void BGServer::Accept()
 		
 		if (false == IsRunning())
 			break;
-
 			
 		// 立加 贸府
 		if (false == AcceptProcess(newClient)) {
@@ -191,6 +200,15 @@ bool BGServer::AcceptProcess(SOCKET& socket)
 		return false;
 	}
 
+	if (!pNewSession->IsState(ESessionState::BG_NONE)) {
+		BG_LOG_ERROR("pNewSession's state is not NONE");
+		return false;
+	}
+		
+	pNewSession->SetState(ESessionState::BG_CONNECT);
+	pNewSession->m_Data.m_socket = socket;
+
+	m_IOCPHandler.OnConnect(pNewSession);
 
 	return true;
 }

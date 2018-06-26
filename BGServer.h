@@ -1,6 +1,8 @@
 #pragma once
 #pragma comment (lib, "ws2_32")
 
+#include "BGCompletionPortHandler.h"
+
 class BGServer
 {
 public:
@@ -51,5 +53,7 @@ private:
 
 	/** 클라이언트 접속을 받을 소켓*/
 	SOCKET m_ListenSocket;
+
+	BGCompletionPortHandler m_IOCPHandler;
 };
 
