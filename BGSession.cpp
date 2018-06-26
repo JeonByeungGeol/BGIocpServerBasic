@@ -24,3 +24,18 @@ bool BGSession::Reset()
 	
 	return true;
 }
+
+void BGSession::SetState(ESessionState state)
+{
+	m_State = state;
+}
+
+bool BGSession::IsState(ESessionState state)
+{
+	return (m_State == state);
+}
+
+int BGSession::GetIndex()
+{
+	return m_Index;
+}
