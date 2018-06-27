@@ -23,7 +23,7 @@ bool BGIOCompletionHandler::Stop()
 	if (m_hIOCP)
 		CloseHandle(m_hIOCP);
 
-	return false;
+	return true;
 }
 
 HANDLE BGIOCompletionHandler::GetIOCP()
