@@ -24,7 +24,7 @@ public:
 	HANDLE GetIOCP();
 
 	/** IOCP 핸들에 연결합니다.*/
-	void OnConnect(BGSession*);
+	void OnConnect(void*);
 
 private:
 	HANDLE m_hIOCP;
