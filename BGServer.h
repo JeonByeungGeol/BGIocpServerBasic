@@ -1,7 +1,7 @@
 #pragma once
 #pragma comment (lib, "ws2_32")
 
-#include "BGCompletionPortHandler.h"
+#include "BGIOCompletionHandler.h"
 
 class BGServer
 {
