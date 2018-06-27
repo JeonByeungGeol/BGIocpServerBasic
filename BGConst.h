@@ -8,3 +8,6 @@ static const int BG_SESSION_POOL_SIZE = 10001;
 
 /** 서버 WorkerThread 수*/
 static const int BG_WORKER_THREAD_NUM = 4;
+
+/** IOBuff에서 사용할 버퍼 최대 크기*/
+static const int BG_MAX_BUFF_SIZE = 4096;

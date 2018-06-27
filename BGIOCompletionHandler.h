@@ -1,4 +1,13 @@
 #pragma once
+
+struct OverlapEx {
+	WSAOVERLAPPED original_overlap;
+	int	operation;
+	WSABUF recv_buf;
+	unsigned char socket_buf[BG_MAX_BUFF_SIZE];
+	int packet_size;
+};
+
 class BGIOCompletionHandler
 {
 public:
