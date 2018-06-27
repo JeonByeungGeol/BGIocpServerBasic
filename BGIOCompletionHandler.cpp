@@ -26,6 +26,11 @@ bool BGIOCompletionHandler::Stop()
 	return false;
 }
 
+HANDLE BGIOCompletionHandler::GetIOCP()
+{
+	return m_hIOCP;
+}
+
 void BGIOCompletionHandler::OnConnect(BGSession * pSession)
 {
 	CreateIoCompletionPort((HANDLE)pSession->m_Data.m_socket, m_hIOCP, (DWORD)pSession->GetIndex(), 0);
