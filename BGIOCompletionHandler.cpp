@@ -1,24 +1,24 @@
 #include "stdafx.h"
-#include "BGCompletionPortHandler.h"
+#include "BGIOCompletionHandler.h"
 
 
-BGCompletionPortHandler::BGCompletionPortHandler()
+BGIOCompletionHandler::BGIOCompletionHandler()
 {
 }
 
 
-BGCompletionPortHandler::~BGCompletionPortHandler()
+BGIOCompletionHandler::~BGIOCompletionHandler()
 {
 }
 
-bool BGCompletionPortHandler::Start()
+bool BGIOCompletionHandler::Start()
 {
 	m_hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
 	
 	return true;
 }
 
-bool BGCompletionPortHandler::Stop()
+bool BGIOCompletionHandler::Stop()
 {
 	if (m_hIOCP)
 		CloseHandle(m_hIOCP);
@@ -26,7 +26,7 @@ bool BGCompletionPortHandler::Stop()
 	return false;
 }
 
-void BGCompletionPortHandler::OnConnect(BGSession * pSession)
+void BGIOCompletionHandler::OnConnect(BGSession * pSession)
 {
 	CreateIoCompletionPort((HANDLE)pSession->m_Data.m_socket, m_hIOCP, (DWORD)pSession->GetIndex(), 0);
 }

@@ -75,7 +75,7 @@
     <ClInclude Include="BGSessionManager.h">
       <Filter>세션</Filter>
     </ClInclude>
-    <ClInclude Include="BGCompletionPortHandler.h">
+    <ClInclude Include="BGIOCompletionHandler.h">
       <Filter>IOCP</Filter>
     </ClInclude>
   </ItemGroup>
@@ -107,7 +107,7 @@
     <ClCompile Include="BGSessionManager.cpp">
       <Filter>세션</Filter>
     </ClCompile>
-    <ClCompile Include="BGCompletionPortHandler.cpp">
+    <ClCompile Include="BGIOCompletionHandler.cpp">
       <Filter>IOCP</Filter>
     </ClCompile>
   </ItemGroup>

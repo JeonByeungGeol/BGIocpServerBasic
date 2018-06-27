@@ -1,9 +1,9 @@
 #pragma once
-class BGCompletionPortHandler
+class BGIOCompletionHandler
 {
 public:
-	BGCompletionPortHandler();
-	~BGCompletionPortHandler();
+	BGIOCompletionHandler();
+	~BGIOCompletionHandler();
 
 	/** 객체 사용을 시작합니다.*/
 	bool Start();
