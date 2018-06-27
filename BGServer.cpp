@@ -68,11 +68,6 @@ bool BGServer::Stop()
 	m_bServerRunning = false;
 	shared_mutex.unlock();
 		
-	if (false == m_IOCPHandler.Stop()) {
-		BG_LOG_ERROR("CompletionPortHandler.Stop is failed");
-		return false;
-	}
-
 	// AcceptThread 종료
 	if (INVALID_SOCKET == closesocket(m_ListenSocket)) 
 	{
@@ -86,6 +81,16 @@ bool BGServer::Stop()
 	delete acceptThread;
 	acceptThread = nullptr;
 
+	// WorkerThread 종료 요청
+	for (int i = 0; i < workerThreads.size(); i++) {
+		OverlapEx* overlap_ex = new OverlapEx;
+		ZeroMemory(overlap_ex, sizeof(OverlapEx));
+		overlap_ex->operation = BG_OP_OFF;
+		overlap_ex->recv_buf.buf = reinterpret_cast<CHAR*>(overlap_ex->socket_buf);
+		overlap_ex->recv_buf.len = 0;
+		PostQueuedCompletionStatus(m_IOCPHandler.GetIOCP(), 1, -1, reinterpret_cast<LPOVERLAPPED>(overlap_ex));
+	}
+
 	// WorkerThread 종료
 	for (auto& thread : workerThreads) {
 		if (thread == nullptr)
@@ -95,6 +100,11 @@ bool BGServer::Stop()
 		thread = nullptr;
 	}
 
+	// IOHandler 종료
+	if (false == m_IOCPHandler.Stop()) {
+		BG_LOG_ERROR("CompletionPortHandler.Stop is failed");
+		return false;
+	}
 
 	if (!g_SessionManager.Stop()) {
 		BG_LOG_ERROR("g_SessionManager.Stop failed");
@@ -243,9 +253,8 @@ void BGServer::Run()
 		if (FALSE == result) {
 			BG_LOG_ERROR("GetQueuedCompletionStatus is failed");
 		}
-
-		// 종료 처리
-		if (0 == io_size) {
+				
+		if (0 == io_size) { // 통신 종료
 
 		}
 
@@ -253,7 +262,9 @@ void BGServer::Run()
 			BG_LOG_ERROR("overlap is nullptr [key=%d]", key);
 			continue;
 		}
-
+		else if (BG_OP_OFF == overlap->operation) {
+			break;
+		}
 		else if (BG_OP_RECV == overlap->operation) {
 			auto pSession = g_SessionManager.GetSession(key);
 			

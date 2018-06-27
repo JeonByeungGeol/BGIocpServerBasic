@@ -13,5 +13,6 @@ static const int BG_WORKER_THREAD_NUM = 4;
 static const int BG_MAX_BUFF_SIZE = 4096;
 
 /** IOCP 패킷을 구분하기 위한 정의*/
+static const int BG_OP_OFF = 0;
 static const int BG_OP_RECV = 1;
 static const int BG_OP_SEND = 2;
