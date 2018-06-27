@@ -54,6 +54,13 @@ private:
 	/** 클라이언트 접속을 받을 소켓*/
 	SOCKET m_ListenSocket;
 
+	/** IOCP Handle 관리*/
 	BGIOCompletionHandler m_IOCPHandler;
+
+	/** 최대 동접 인원*/
+	long m_MaxConcurrentUser;
+
+	/** 현재 동접 인원*/
+	long m_ConcurrentUser;
 };
 

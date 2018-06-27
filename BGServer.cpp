@@ -3,7 +3,7 @@
 
 
 BGServer::BGServer()
-	: m_bServerRunning(false)
+	: m_bServerRunning(false), m_MaxConcurrentUser(0), m_ConcurrentUser(0)
 {
 }
 
@@ -198,6 +198,12 @@ void BGServer::Accept()
 			BG_LOG_ERROR("AcceptProcess() is failed");
 			continue;
 		}
+
+		int userCnt = InterlockedIncrement(&m_ConcurrentUser);
+		if (userCnt > m_MaxConcurrentUser) {
+			m_MaxConcurrentUser = userCnt;
+		}
+
 	}
 	BG_LOG_DEBUG("Accept Thread Exit");
 }
@@ -255,7 +261,7 @@ void BGServer::Run()
 		}
 				
 		if (0 == io_size) { // 통신 종료
-
+			InterlockedDecrement(&m_ConcurrentUser);
 		}
 
 		if (overlap == nullptr) {
