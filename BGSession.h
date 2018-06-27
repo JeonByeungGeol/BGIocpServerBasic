@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BGSessionEnum.h"
+#include "BGIOCompletionHandler.h"
 
 /**
 * <pre>
@@ -11,14 +12,14 @@ struct BG_SESSION_DATA
 {
 	SOCKET m_socket;
 
-	int sampleData1;
+	OverlapEx m_recv_overlap;
 
-	std::string sampleData2;
+	int previous_data;
 
+	unsigned char packet[BG_MAX_BUFF_SIZE];
 
 	void Reset() {
-		sampleData1 = 0;
-		sampleData2.clear();
+		previous_data = 0;
 	}
 };
 

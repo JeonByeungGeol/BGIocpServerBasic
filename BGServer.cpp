@@ -210,6 +210,19 @@ bool BGServer::AcceptProcess(SOCKET& socket)
 
 	m_IOCPHandler.OnConnect(pNewSession);
 
+	pNewSession->m_Data.m_recv_overlap.operation = BG_OP_RECV;
+	pNewSession->m_Data.m_recv_overlap.packet_size = 0;
+	pNewSession->m_Data.previous_data = 0;
+
+	DWORD flags = 0;
+	int res = WSARecv(socket, &pNewSession->m_Data.m_recv_overlap.recv_buf
+		, 1, NULL, &flags, &pNewSession->m_Data.m_recv_overlap.original_overlap, NULL);
+	if (0 != res) {
+		int error_no = WSAGetLastError();
+		if (WSA_IO_PENDING != error_no) {
+			BG_LOG_ERROR("WSARecv is error [error_no=%d]", error_no);
+		}
+	}
 	return true;
 }
 
@@ -218,7 +231,7 @@ void BGServer::Run()
 	BG_LOG_DEBUG("Worker Thread Start");
 
 	DWORD io_size, key;
-	OVERLAPPED *overlap;
+	OverlapEx *overlap;
 	BOOL result;
 
 	while (true) {
@@ -228,14 +241,58 @@ void BGServer::Run()
 		result = GetQueuedCompletionStatus(m_IOCPHandler.GetIOCP(), &io_size, &key,
 			reinterpret_cast<LPOVERLAPPED*>(&overlap), INFINITE);
 		if (FALSE == result) {
-			BG_LOG_ERROR("");
+			BG_LOG_ERROR("GetQueuedCompletionStatus is failed");
 		}
 
+		// 종료 처리
 		if (0 == io_size) {
-			// 종료 처리
+
 		}
 
-		// 패킷 조립
+		if (overlap == nullptr) {
+			BG_LOG_ERROR("overlap is nullptr [key=%d]", key);
+			continue;
+		}
+
+		else if (BG_OP_RECV == overlap->operation) {
+			auto pSession = g_SessionManager.GetSession(key);
+			
+			unsigned char *buf_ptr = overlap->socket_buf;
+			int remained = io_size;
+
+			// 패킷 조립
+			while (0 < remained) {
+				if (0 == pSession->m_Data.m_recv_overlap.packet_size)
+					pSession->m_Data.m_recv_overlap.packet_size = buf_ptr[0];
+
+				int required = pSession->m_Data.m_recv_overlap.packet_size - pSession->m_Data.previous_data;
+				if (remained >= required) {
+					memcpy(pSession->m_Data.packet + pSession->m_Data.previous_data,
+						buf_ptr, required);
+					// ProcessPAcket();
+					remained -= required;
+					buf_ptr += required;
+					pSession->m_Data.m_recv_overlap.packet_size = 0;
+					pSession->m_Data.previous_data = 0;
+				}
+				else {
+					memcpy(pSession->m_Data.packet + pSession->m_Data.previous_data, buf_ptr, remained);
+					pSession->m_Data.previous_data += remained;
+					remained = 0;
+					buf_ptr += remained;
+				}
+			}
+
+			DWORD flags = 0;
+			WSARecv(pSession->m_Data.m_socket,
+				&pSession->m_Data.m_recv_overlap.recv_buf, BG_OP_RECV, NULL, &flags,
+				reinterpret_cast<LPWSAOVERLAPPED>(&pSession->m_Data.m_recv_overlap), NULL);
+		}
+		else if (BG_OP_SEND == overlap->operation) {
+			// ioSize하고 실제 보낸 크기 비교 후 소켓 접속 끊기
+			delete overlap;
+		}
+		
 
 
 
