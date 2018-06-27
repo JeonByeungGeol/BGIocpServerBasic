@@ -216,10 +216,26 @@ bool BGServer::AcceptProcess(SOCKET& socket)
 void BGServer::Run()
 {
 	BG_LOG_DEBUG("Worker Thread Start");
+
+	DWORD io_size, key;
+	OVERLAPPED *overlap;
+	BOOL result;
+
 	while (true) {
 		if (false == IsRunning())
 			break;
 
+		result = GetQueuedCompletionStatus(m_IOCPHandler.GetIOCP(), &io_size, &key,
+			reinterpret_cast<LPOVERLAPPED*>(&overlap), INFINITE);
+		if (FALSE == result) {
+			BG_LOG_ERROR("");
+		}
+
+		if (0 == io_size) {
+			// 종료 처리
+		}
+
+		// 패킷 조립
 
 
 
